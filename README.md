@@ -1,4 +1,4 @@
-# AICUP Baseline: BoT-SORT
+# AICUP Parameter: BoT-SORT
 
 > [**BoT-SORT: Robust Associations Multi-Pedestrian Tracking**](https://arxiv.org/abs/2206.14651)
 > 
@@ -297,6 +297,23 @@ python yolov7/train_aux.py --device 0 --batch-size 16 --epochs 50 --data yolov7/
 For multiple GPU training and other details, please refer to [YOLOv7-Training](https://github.com/WongKinYiu/yolov7?tab=readme-ov-file#training).
 
 The training results will be saved by default at `runs/train`.
+
+### Modified the parameter part
+In ReID module, we modified the ```fast_reid/configs/AICUP/bagtricks_R50-ibn.yml```. <br>
+Since the GPU memory is insufficient, we adjust the IMS_PER_BATCH parameter in the SOLVER from the original 256 to 128.<br>
+
+In YOLOv7 model, we don't modified the ```yolov7/cfg/training/yolov7-AICUP.yaml```.<br>
+We modify the parameters directly where the command is given.<br>
+Since the GPU memory is insufficient, we adjust the --batch-size from 16 to 2.
+
+``` shell
+cd <BoT-SORT_dir>
+# finetune p5 models
+python yolov7/train.py --device 0 --batch-size 2 --epochs 50 --data yolov7/data/AICUP.yaml --img 1280 1280 --cfg yolov7/cfg/training/yolov7-AICUP.yaml --weights 'pretrained/yolov7-e6e.pt' --name yolov7-AICUP --hyp data/hyp.scratch.custom.yaml
+
+# finetune p6 models
+python yolov7/train_aux.py --device 0 --batch-size 2 --epochs 50 --data yolov7/data/AICUP.yaml --img 1280 1280 --cfg yolov7/cfg/training/yolov7-w6-AICUP.yaml --weights 'pretrained/yolov7-e6e.pt' --name yolov7-w6-AICUP --hyp data/hyp.scratch.custom.yaml
+```
 
 ## Tracking and creating the submission file for AICUP (Demo)
 
