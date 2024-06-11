@@ -337,10 +337,11 @@ The submission file and visualized images will be saved by default at `runs/dete
 
 ## Tracking and creating the submission file for AICUP (We Demo)
 
-Track one `<timestamp>` with BoT-SORT(-ReID) based YOLOv7 and multi-class (We only output class: 'car').<br>
 --weights: We use the best trained yolov7 model ```runs/train/yolov7-AICUP5/weights/best.pt```<br>
 --fast-reid-weights: We use the fast-reid model of the last epoch trained ```logs/AICUP_115/bagtricks_R50-ibn/model_0058.pth```<br>
 
+
+Track one `<timestamp>` with BoT-SORT(-ReID) based YOLOv7 and multi-class (We only output class: 'car').
 ```shell
 cd <BoT-SORT_dir>
 python3 tools/mc_demo_yolov7.py --weights runs/train/yolov7-AICUP5/weights/best.pt --source AI_CUP_MCMOT_dataset/train/images/<timestamp> --device "0" --name "<timestamp>" --fuse-score --agnostic-nms --with-reid --fast-reid-config fast_reid/configs/AICUP/bagtricks_R50-ibn.yml --fast-reid-weights logs/AICUP_115/bagtricks_R50-ibn/model_0058.pth
